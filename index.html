@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowly by Cha — L'app pour les cerveaux qui débordent</title>
+  <meta name="description" content="Flowly s'adapte à ton énergie du jour. Tâches, notes, agenda et mind map réunis dans une seule app pensée pour les cerveaux qui fonctionnent autrement." />
+  <meta property="og:title" content="Flowly by Cha" />
+  <meta property="og:description" content="L'app qui respecte ton énergie. Zéro culpabilité, zéro friction." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://flowlybycha.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FAF4EE;
+      --card: #ffffff;
+      --rose: #B8929A;
+      --gold: #C4A882;
+      --blue: #4A7A96;
+      --text: #2a2420;
+      --muted: #7a6f68;
+      --subtle: #b0a89e;
+      --border: #e8e0d8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 244, 238, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #B8929A, #C4A0B8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .logo-icon span { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: white; line-height: 1; }
+    .logo-icon .star { position: absolute; top: 3px; right: 3px; font-size: 7px; color: #c0bcd8; }
+
+    .logo-text { line-height: 1.1; }
+    .logo-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--rose); }
+    .logo-sub { font-size: 10px; color: var(--subtle); font-style: italic; }
+
+    .nav-cta {
+      background: var(--gold);
+      color: white;
+      text-decoration: none;
+      padding: 0.55rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 1.5rem 4rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(196, 168, 130, 0.15);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 .accent { color: var(--rose); }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--gold);
+      color: white;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 4px 16px rgba(196,168,130,0.35);
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* MOCKUP */
+    .mockup-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 1.5rem 4rem;
+    }
+
+    .phone-frame {
+      width: min(280px, 80vw);
+      background: #1a1f24;
+      border-radius: 36px;
+      padding: 14px;
+      box-shadow: 0 32px 80px rgba(42,36,32,0.22), 0 0 0 1px rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    .phone-screen {
+      background: #F8F6F2;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 9/19;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-topbar {
+      background: white;
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid #f0ede8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phone-mood { font-size: 18px; }
+    .phone-title { font-size: 11px; font-weight: 600; color: #1a1a1a; }
+
+    .phone-content { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+
+    .phone-section-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #c4b8ae;
+      margin-top: 4px;
+    }
+
+    .phone-task {
+      background: white;
+      border-radius: 10px;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid transparent;
+    }
+
+    .phone-task-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
+    .phone-task-text { font-size: 10px; color: #2a2420; }
+
+    .phone-bottomnav {
+      background: white;
+      border-top: 1px solid #f0ede8;
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 10px;
+    }
+
+    .phone-nav-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #e8e4de;
+    }
+    .phone-nav-dot.active { background: var(--blue); }
+
+    /* FEATURES */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(196,168,130,0.12); }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .feature-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* MOOD SECTION */
+    .mood-section {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .mood-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .mood-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+    }
+
+    .mood-emoji { font-size: 1.6rem; flex-shrink: 0; }
+    .mood-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .mood-card p { font-size: 0.8rem; color: var(--muted); }
+
+    .mood-visual {
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+
+    .mood-visual-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--subtle);
+      margin-bottom: 0.75rem;
+    }
+
+    .mv-task {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid transparent;
+    }
+
+    .mv-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
+    .mv-text { font-size: 0.82rem; color: var(--text); }
+
+    /* COUPLE */
+    .couple-section {
+      background: linear-gradient(135deg, rgba(184,146,154,0.08), rgba(74,122,150,0.08));
+      border-radius: 24px;
+      padding: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin: 0 1.5rem;
+    }
+
+    .couple-emoji { font-size: 3rem; flex-shrink: 0; }
+
+    .couple-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .couple-section p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .couple-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, #B8929A, #C4A0B8);
+      text-align: center;
+      padding: 5rem 1.5rem;
+    }
+
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: var(--rose);
+      text-decoration: none;
+      padding: 0.9rem 2.25rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    .btn-white:hover { opacity: 0.95; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    footer .logo-name { font-size: 0.95rem; margin-bottom: 0.25rem; display: block; }
+    footer p { font-size: 0.8rem; color: var(--subtle); }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      nav { padding: 0.85rem 1.25rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .mood-grid { grid-template-columns: 1fr; }
+      .mood-visual { display: none; }
+      .couple-section { flex-direction: column; text-align: center; }
+      .couple-tags { justify-content: center; }
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">
+      <div class="logo-icon">
+        <span>F</span>
+        <span class="star">✦</span>
+      </div>
+      <div class="logo-text">
+        <div class="logo-name">Flowly</div>
+        <div class="logo-sub">by Cha ✦</div>
+      </div>
+    </a>
+    <a href="https://flowly-app-six.vercel.app" class="nav-cta">Essayer gratuitement →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="badge fade-up">✦ Pour les esprits qui débordent</span>
+    <h1 class="fade-up delay-1">
+      Organise ta vie<br />
+      <span class="accent">sans te battre</span><br />
+      contre elle.
+    </h1>
+    <p class="fade-up delay-2">
+      Flowly s'adapte à ton énergie du jour. Fatigué(e)&nbsp;? Seulement l'essentiel. En forme&nbsp;? Tout s'affiche. Zéro culpabilité, zéro friction.
+    </p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="https://flowly-app-six.vercel.app" class="btn-primary">
+        ✨ Commencer gratuitement
+      </a>
+      <a href="#fonctionnalites" class="btn-secondary">
+        Découvrir l'app ↓
+      </a>
+    </div>
+  </section>
+
+  <!-- MOCKUP -->
+  <div class="mockup-wrapper">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-topbar">
+          <span class="phone-mood">☀️</span>
+          <span class="phone-title">Aujourd'hui</span>
+          <span style="font-size:11px;color:#b0aba4">Jeu. 12</span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-section-label">🔴 Urgent</div>
+          <div class="phone-task" style="border-left-color:#C86060">
+            <div class="phone-task-dot" style="border-color:#C86060"></div>
+            <span class="phone-task-text">Appeler le médecin</span>
+          </div>
+          <div class="phone-section-label" style="margin-top:6px">🟠 Important</div>
+          <div class="phone-task" style="border-left-color:#C89050">
+            <div class="phone-task-dot" style="border-color:#C89050"></div>
+            <span class="phone-task-text">Préparer la réunion</span>
+          </div>
+          <div class="phone-task" style="border-left-color:#C89050">
+            <div class="phone-task-dot" style="border-color:#C89050"></div>
+            <span class="phone-task-text">Répondre à Laura</span>
+          </div>
+          <div class="phone-section-label" style="margin-top:6px">🟡 Ce mois</div>
+          <div class="phone-task" style="border-left-color:#C8B048">
+            <div class="phone-task-dot" style="border-color:#C8B048"></div>
+            <span class="phone-task-text">Renouveler abonnement</span>
+          </div>
+        </div>
+        <div class="phone-bottomnav">
+          <div class="phone-nav-dot active"></div>
+          <div class="phone-nav-dot"></div>
+          <div class="phone-nav-dot"></div>
+          <div class="phone-nav-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section" id="fonctionnalites">
+    <p class="section-label">Les fonctionnalités</p>
+    <h2 class="section-title">Tout ce qu'il te faut, sans le reste.</h2>
+    <p class="section-sub">✦ pensé pour les cerveaux qui fonctionnent autrement</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(200,176,72,0.12)">☀️</div>
+        <h3>Aujourd'hui</h3>
+        <p>Seulement ce qui compte aujourd'hui, filtré selon ton énergie du moment. Plus de liste interminable qui t'écrase.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(184,146,154,0.12)">📝</div>
+        <h3>Notes & listes</h3>
+        <p>Capture une idée en 2 secondes. Écris librement ou crée des listes à cocher pour tes courses et tâches rapides.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(200,144,80,0.12)">🗺️</div>
+        <h3>Mind Map</h3>
+        <p>Visualise tes projets et idées comme ton cerveau les organise vraiment. Pas de dossiers rigides, juste des branches libres.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(74,122,150,0.12)">📅</div>
+        <h3>Agenda</h3>
+        <p>Tes événements et tâches sur une vue hebdomadaire. Glisse une tâche d'un jour à l'autre en un geste.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOOD -->
+  <section class="mood-section">
+    <div class="section">
+      <p class="section-label">Le mode humeur</p>
+      <h2 class="section-title">L'app qui respecte ton énergie</h2>
+      <p class="section-sub">Chaque matin, tu choisis comment tu te sens. Flowly adapte l'affichage — pas de pression.</p>
+
+      <div class="mood-grid">
+        <div class="mood-cards">
+          <div class="mood-card">
+            <span class="mood-emoji">😴</span>
+            <div>
+              <h4>Fatigué(e)</h4>
+              <p>Seulement les tâches urgentes 🔴 — le reste disparaît.</p>
+            </div>
+          </div>
+          <div class="mood-card">
+            <span class="mood-emoji">🙂</span>
+            <div>
+              <h4>Correct(e)</h4>
+              <p>Urgent + important 🔴🟠 — un équilibre accessible.</p>
+            </div>
+          </div>
+          <div class="mood-card">
+            <span class="mood-emoji">⚡</span>
+            <div>
+              <h4>En forme</h4>
+              <p>Tout afficher 🔴🟠🟡🔵 — profite de l'élan.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mood-visual">
+          <div class="mood-visual-label">À faire aujourd'hui</div>
+          <div class="mv-task" style="border-left-color:#C86060">
+            <div class="mv-dot" style="border-color:#C86060"></div>
+            <span class="mv-text">Appeler le médecin</span>
+          </div>
+          <div class="mv-task" style="border-left-color:#C89050">
+            <div class="mv-dot" style="border-color:#C89050"></div>
+            <span class="mv-text">Préparer la réunion</span>
+          </div>
+          <div class="mv-task" style="border-left-color:#C8B048">
+            <div class="mv-dot" style="border-color:#C8B048"></div>
+            <span class="mv-text">Lire 30 minutes</span>
+          </div>
+          <div class="mv-task" style="border-left-color:#6A9AB8">
+            <div class="mv-dot" style="border-color:#6A9AB8"></div>
+            <span class="mv-text">Ranger le bureau</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUPLE -->
+  <div style="max-width:1000px;margin:4rem auto;padding:0 1.5rem">
+    <div class="couple-section">
+      <span class="couple-emoji">💑</span>
+      <div>
+        <h3>Mode couple disponible</h3>
+        <p>Connecte ton compte à celui de ton partenaire pour partager les tâches du foyer et l'agenda familial. Chacun garde son espace personnel, et vous gérez le quotidien ensemble.</p>
+        <div class="couple-tags">
+          <span class="tag">📋 Tâches partagées</span>
+          <span class="tag">📅 Agenda commun</span>
+          <span class="tag">🏠 Vue foyer</span>
+          <span class="tag">👤 Espaces privés</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Prête à essayer&nbsp;?</h2>
+    <p>Gratuit · Installable sur ton téléphone et ton ordinateur</p>
+    <a href="https://flowly-app-six.vercel.app" class="btn-white">
+      Créer mon compte →
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="logo-name" style="font-family:'Playfair Display',serif;color:#B8929A">Flowly by Cha ✦</span>
+    <p>Fait avec ❤️ pour les cerveaux qui débordent</p>
+    <p style="margin-top:0.5rem">
+      <a href="https://flowly-app-six.vercel.app">Accéder à l'app</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:contact@flowlybycha.com">contact@flowlybycha.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>
