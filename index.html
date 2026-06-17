@@ -259,6 +259,43 @@
     }
     .phone-nav-dot.active { background: var(--blue); }
 
+    /* TABS */
+    .tab-btn {
+      font-size: 0.85rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .tab-btn.active { background: var(--rose); color: white; border-color: var(--rose); }
+    .tab-btn:hover:not(.active) { background: var(--card); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-panel-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      background: var(--card);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+    }
+    .tab-text h3 { font-family: 'Playfair Display', serif !important; font-size: 1.5rem !important; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; }
+    .tab-text p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 0.6rem; }
+    .tab-text strong { color: var(--text); }
+    .tab-screen { display: flex; justify-content: center; }
+    .tab-screen img { width: min(200px, 100%); border-radius: 20px; box-shadow: 0 16px 48px rgba(42,36,32,0.15); }
+    @media (max-width: 640px) {
+      .tab-panel-inner { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.5rem; }
+      .tab-screen { order: -1; }
+      .tab-screen img { width: min(160px, 60%); }
+    }
+
     /* FEATURES */
     .section {
       max-width: 1000px;
@@ -548,30 +585,66 @@
 
   <!-- FEATURES -->
   <section class="section" id="fonctionnalites">
-    <p class="section-label">Les fonctionnalités</p>
-    <h2 class="section-title">Tout ce qu'il te faut, sans le reste.</h2>
-    <p class="section-sub">✦ pensé pour les cerveaux qui fonctionnent autrement</p>
+    <p class="section-label">L'application</p>
+    <h2 class="section-title">Tout ce qu'il te faut, rien de plus.</h2>
+    <p class="section-sub">4 espaces pensés pour fonctionner autrement</p>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(200,176,72,0.12)">☀️</div>
-        <h3>Aujourd'hui</h3>
-        <p>Seulement ce qui compte aujourd'hui, filtré selon ton énergie du moment. Plus de liste interminable qui t'écrase.</p>
+    <div style="margin-top:2rem">
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem">
+        <button class="tab-btn active" onclick="showTab('today', this)">☀️ Aujourd'hui</button>
+        <button class="tab-btn" onclick="showTab('notes', this)">📝 Notes</button>
+        <button class="tab-btn" onclick="showTab('mindmap', this)">🗺️ Mind Map</button>
+        <button class="tab-btn" onclick="showTab('agenda', this)">📅 Agenda</button>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(184,146,154,0.12)">📝</div>
-        <h3>Notes & listes</h3>
-        <p>Capture une idée en 2 secondes. Écris librement ou crée des listes à cocher pour tes courses et tâches rapides.</p>
+
+      <div id="tab-today" class="tab-panel active">
+        <div class="tab-panel-inner">
+          <div class="tab-text">
+            <h3>Aujourd'hui</h3>
+            <p>Chaque matin, tu indiques comment tu te sens. Flowly filtre ta liste selon ton énergie — seulement l'urgent quand tu es fatigué(e), tout quand tu es en forme.</p>
+            <p><strong>Maximum 5 tâches affichées à la fois.</strong> La suivante n'apparaît qu'une fois la précédente terminée. Fini la liste qui t'écrase avant même de commencer.</p>
+          </div>
+          <div class="tab-screen">
+            <img src="/images/screen-today.png" alt="Onglet Aujourd'hui" />
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(200,144,80,0.12)">🗺️</div>
-        <h3>Mind Map</h3>
-        <p>Visualise tes projets et idées comme ton cerveau les organise vraiment. Pas de dossiers rigides, juste des branches libres.</p>
+
+      <div id="tab-notes" class="tab-panel">
+        <div class="tab-panel-inner">
+          <div class="tab-text">
+            <h3>Notes & listes</h3>
+            <p>Capture une idée en 2 secondes. Texte libre, liste à cocher, note rapide — tout est là quand tu en as besoin. Aucune organisation requise, juste écrire.</p>
+          </div>
+          <div class="tab-screen">
+            <img src="/images/screen-notes.png" alt="Onglet Notes" />
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(74,122,150,0.12)">📅</div>
-        <h3>Agenda</h3>
-        <p>Tes événements et tâches sur une vue hebdomadaire. Glisse une tâche d'un jour à l'autre en un geste.</p>
+
+      <div id="tab-mindmap" class="tab-panel">
+        <div class="tab-panel-inner">
+          <div class="tab-text">
+            <h3>Mind Map</h3>
+            <p>Visualise tes projets comme ton cerveau les organise vraiment. Crée des branches, relie tes idées. Pour ceux qui pensent en arborescence, pas en colonnes.</p>
+            <p><strong>Partage une Mind Map avec ton partenaire.</strong> Planifiez vos projets communs — travaux, voyages, projets de vie — sur un espace visuel partagé.</p>
+          </div>
+          <div class="tab-screen">
+            <img src="/images/screen-mindmap.png" alt="Mind Map" />
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-agenda" class="tab-panel">
+        <div class="tab-panel-inner">
+          <div class="tab-text">
+            <h3>Agenda</h3>
+            <p>Tes événements sur une vue claire et sans bruit. Partage ton agenda avec ton partenaire si tu veux — tâches du foyer en commun, chacun garde son espace personnel.</p>
+          </div>
+          <div class="tab-screen">
+            <img src="/images/screen-agenda.png" alt="Agenda" />
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -631,6 +704,17 @@
     </div>
   </section>
 
+  <!-- À PROPOS -->
+  <section class="section" id="apropos">
+    <p class="section-label">L'histoire derrière l'app</p>
+    <h2 class="section-title">Pourquoi Flowly existe</h2>
+    <div style="max-width:640px;margin:0 auto;background:var(--card);border-radius:24px;padding:2.5rem;border:1px solid var(--border)">
+      <p style="font-size:0.95rem;color:var(--muted);line-height:1.9;margin-bottom:1rem">Les apps d'organisation existantes ne sont pas conçues pour les cerveaux neurodivergents. Trop de stimulations visuelles, trop de tâches affichées en même temps, aucune prise en compte des variations d'énergie au quotidien.</p>
+      <p style="font-size:0.95rem;color:var(--muted);line-height:1.9;margin-bottom:1rem">Flowly est née de ce manque. Conçue par quelqu'un qui vit avec un TDAH diagnostiqué à l'âge adulte, elle intègre ce que les autres oublient : que certains jours tu peux tout gérer, et d'autres tu as besoin de l'essentiel seulement.</p>
+      <p style="font-size:0.95rem;color:var(--muted);line-height:1.9">Une app pensée pour ceux qu'on n'a pas accompagnés à l'époque — et qui apprennent à s'organiser à leur rythme.</p>
+    </div>
+  </section>
+
   <!-- COUPLE -->
   <div style="max-width:1000px;margin:4rem auto;padding:0 1.5rem">
     <div class="couple-section">
@@ -670,5 +754,13 @@
     </p>
   </footer>
 
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
 </body>
 </html>
